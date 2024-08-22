@@ -18,13 +18,11 @@ export default function Layout() {
     Roboto_400Regular
   });
 
+  if (!fontsLoaded) {
+    return <Loading />;
+  }
+
   return (
-    <>
-      <StatusBar style="light" />
-      {fontsLoaded ?
-        <Slot /> :
-        <Loading />
-      }
-    </>
+    <Slot />
   )
 }
