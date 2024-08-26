@@ -1,12 +1,22 @@
-import { View, Image, StatusBar } from "react-native";
+import { View, Image, StatusBar, Alert } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 
 import { Input } from "@/components/Input";
 import { colors } from "@/styles/colors";
 import { Button } from "@/components/Button";
+import { useState } from "react";
 
 export default function Register() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  function handleRegister() {
+    if (!name || !email) {
+      return Alert.alert("Inscrição", "Preencha todos os campos!");
+    }
+  }
+
   return (
     <View className="flex-1 bg-green-500 items-center justify-center p-8">
       <StatusBar barStyle="light-content" />
@@ -25,6 +35,7 @@ export default function Register() {
           />
           <Input.Field
             placeholder="Nome completo"
+            onChangeText={setName}
           />
         </Input>
 
@@ -37,10 +48,12 @@ export default function Register() {
           <Input.Field
             placeholder="E-mail"
             keyboardType="email-address"
+            onChangeText={setEmail}
           />
         </Input>
         <Button
           title="Realizar inscrição"
+          onPress={handleRegister}
         />
         <Link
           href="/"
