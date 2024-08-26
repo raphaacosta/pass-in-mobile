@@ -40,7 +40,7 @@ export default function Register() {
           />
         </Input>
         <Button
-          title="Acessar credencial"
+          title="Realizar inscrição"
         />
         <Link
           href="/"
