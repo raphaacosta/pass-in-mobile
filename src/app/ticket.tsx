@@ -3,10 +3,11 @@ import {
   Alert,
   Text,
   View,
+  Share,
+  Modal,
   StatusBar,
   ScrollView,
   TouchableOpacity,
-  Modal
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -24,6 +25,19 @@ export default function Ticket() {
   const [expandeQRCode, setExpandeQRCode] = useState(false);
 
   const badgeStore = useBadgeStore();
+
+  async function handleShare() {
+    try {
+      if (badgeStore.data?.checkInURL) {
+        await Share.share({
+          message: badgeStore.data.checkInURL,
+        })
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Compartilhar", "Ocorreu um erro ao tentar compartilhar a sua credencial!");
+    }
+  }
 
   async function handleSelectImage() {
     try {
@@ -77,7 +91,7 @@ export default function Ticket() {
           Mostre ao mundo que você vai participar do evento {badgeStore.data.eventTitle}!
         </Text>
 
-        <Button title="Compartilhar" />
+        <Button title="Compartilhar" onPress={handleShare} />
 
         <TouchableOpacity
           activeOpacity={0.7}
