@@ -6,17 +6,47 @@ import { Input } from "@/components/Input";
 import { colors } from "@/styles/colors";
 import { Button } from "@/components/Button";
 import { useState } from "react";
+import { api } from "@/server/api";
+import axios from "axios";
+
+const EVENT_ID = "51ac9b89-7666-4a8c-bbf0-e8bfc97dc68e"
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleRegister() {
-    if (!name || !email) {
-      return Alert.alert("Inscrição", "Preencha todos os campos!");
+  async function handleRegister() {
+    try {
+      if (!name || !email) {
+        return Alert.alert("Inscrição", "Preencha todos os campos!");
+      }
+
+      setIsLoading(true);
+
+      const registerResponse = await api.post(`/events/${EVENT_ID}/attendees`, {
+        name,
+        email,
+      });
+
+      if (registerResponse.data.attendeeId) {
+        Alert.alert("Inscrição", "Inscrição realizada com sucesso!", [
+          { text: "Ok", onPress: () => router.push("/ticket") }
+        ]);
+      }
+    } catch (error) {
+      console.log(error);
+
+      if (axios.isAxiosError(error)) {
+        if (String(error.response?.data.message).includes("already registered")) {
+          return Alert.alert("Inscrição", "Este e-mail já está cadastrado!");
+        }
+      }
+
+      Alert.alert("Inscrição", "Não foi possível fazer a inscrição!");
+    } finally {
+      setIsLoading(false);
     }
-
-    router.push("/ticket");
   }
 
   return (
@@ -56,6 +86,7 @@ export default function Register() {
         <Button
           title="Realizar inscrição"
           onPress={handleRegister}
+          isLoading={isLoading}
         />
         <Link
           href="/"
