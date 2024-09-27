@@ -18,7 +18,7 @@ type Props = {
   onExpandeQRCode?: () => void;
 }
 
-export function Credential({ image, onChangeAvatar, onExpandeQRCode, data }: Props) {
+export function Credential({ onChangeAvatar, onExpandeQRCode, data }: Props) {
   return (
     <View className="w-full self-stretch items-center ">
       <Image
@@ -40,13 +40,13 @@ export function Credential({ image, onChangeAvatar, onExpandeQRCode, data }: Pro
         </ImageBackground>
 
         {
-          image ?
+          data.image ?
             <TouchableOpacity
               activeOpacity={0.9}
               onPress={onChangeAvatar}
             >
               <Image
-                source={{ uri: image }}
+                source={{ uri: data.image }}
                 className="w-36 h-36 rounded-full -mt-24"
               />
             </TouchableOpacity>
