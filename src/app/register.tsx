@@ -1,13 +1,14 @@
+import { useState } from "react";
 import { View, Image, StatusBar, Alert } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
+import axios from "axios";
 
 import { Input } from "@/components/Input";
 import { colors } from "@/styles/colors";
 import { Button } from "@/components/Button";
-import { useState } from "react";
 import { api } from "@/server/api";
-import axios from "axios";
+import { useBadgeStore } from "@/store/badge-store";
 
 const EVENT_ID = "51ac9b89-7666-4a8c-bbf0-e8bfc97dc68e"
 
@@ -15,6 +16,8 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const badgeStore = useBadgeStore();
 
   async function handleRegister() {
     try {
@@ -30,6 +33,10 @@ export default function Register() {
       });
 
       if (registerResponse.data.attendeeId) {
+        const badgeResponse = await api.get(`/attendees/${registerResponse.data.attendeeId}/badge`);
+
+        badgeStore.save(badgeResponse.data.badge);
+
         Alert.alert("Inscrição", "Inscrição realizada com sucesso!", [
           { text: "Ok", onPress: () => router.push("/ticket") }
         ]);
