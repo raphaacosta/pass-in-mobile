@@ -10,7 +10,7 @@
   </a>
   <img src="https://img.shields.io/badge/Next%20Level%20Week-Unite-blueviolet" alt="NLW Unite">
   <div style="margin-top: 10px;">
-    <a target="_blank" href="https://github.com/raphaacosta/pass-in-api">
+    <a target="_blank" href="https://github.com/raphaacosta/pass-in-server">
       <img src="https://img.shields.io/badge/Go%20to-Api-blueviolet" alt="Pass-in Api"/>
     </a>
     <a href="https://github.com/raphaacosta/pass-in-web">
